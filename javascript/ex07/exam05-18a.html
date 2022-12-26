@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex07</title>
+</head>
+<body>
+<h1>AJAX - 응용 II : 서버에서 JSON 데이터 받아오기</h1>
+<form id="login-form" action="">
+    이메일:<input type="email" name="email"><br>    
+    암호: <input type="password" name="password"><br>
+    <button>로그인</button>
+    <button type="reset">취소</button>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+</script>
+<script>
+"use strict"
+// 웹페이지를 만들 때 AJAX를 이용하여 여러 조각을 붙여서 만들 수 있다.
+//       
+$("#login-form").submit((e) => {   
+    $.post("http://localhost:3000/login", {
+            email:$("#login-form > input[name='email']").val(),
+            password:$("#login-form > input[name='password']").val()
+        }, function(result) {
+            console.log(result);
+        });
+    //따로 ajax요청을 할거기때문에 웹브라우저가 서버에 요청하는 것은 막는다
+    e.preventDefault();
+});
+
+
+</script>
+</body>
+</html>
+
+
+
+
+

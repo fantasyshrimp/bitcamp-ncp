@@ -1,0 +1,20 @@
+
+    .btn {
+        border: 1px solid gray;
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 3px;
+        background-color: rgb(197, 197, 255);
+        color: white;
+
+        box-shadow: 1px 1px 3px 0px gray;
+    }
+
+    .btn:active {
+        background-color: rgb(81, 81, 255);
+        box-shadow: 0px 0px 0px 0px gray;
+    }
+
+    .btn:hover {
+        cursor: default;
+    }
