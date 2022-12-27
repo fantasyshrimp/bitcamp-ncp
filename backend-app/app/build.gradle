@@ -1,4 +1,5 @@
 plugins {
+    id 'eclipse'
     id 'application' // java 포함
     //id 'java'
     id 'org.springframework.boot' version '3.0.1'
@@ -17,6 +18,11 @@ tasks.withType(JavaCompile) {
     // 자바 클래스를 실행시킬 JVM의 최소 버전
     targetCompatibility = '17'
 }
+
+tasks.named('test') {
+  useJUnitPlatform();
+}
+
 group = 'bitcamp'
 version = '0.0.1-SNAPSHOT'
 
@@ -43,6 +49,3 @@ application {
     mainClass = 'bitcamp.bootapp.App'
 }
 
-tasks.named('test') {
-  useJUnitPlatform();
-}
