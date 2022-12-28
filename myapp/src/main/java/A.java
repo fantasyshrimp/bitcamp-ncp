@@ -1,6 +1,8 @@
-class A {
-  p1.B obj;
-  p2.px.aaaaa.bbbbb.ccccc.ddddd.D obj2;
+import p1.B;
+import p2.px.aaaaa.bbbbb.ccccc.ddddd.D;
 
+class A {
+  B obj;
+  D obj2;
 
 }
