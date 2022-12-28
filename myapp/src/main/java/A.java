@@ -8,4 +8,8 @@ class A {
   D obj2;
   p2.C obj3;
   C obj4;
+
+  public static void main(String[] args) {
+    System.out.println("Hello");
+  }
 }
