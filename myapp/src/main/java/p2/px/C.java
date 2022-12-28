@@ -1,3 +1,3 @@
-package p2;
+package p2.px;
 
 public class C {}
