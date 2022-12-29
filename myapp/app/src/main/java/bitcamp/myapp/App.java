@@ -4,11 +4,46 @@
 package bitcamp.myapp;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+  public static void main(String[] args) {
+    int no = 1;
+    String name = "홍길동";
+    String tell = "010-1110-2222";
+    String postNo = "06656";
+
+    String basicAddress = "서울시 서초구 반포대로 23길";
+    String detaileAddress = "101동 102호";
+
+    boolean working = false;
+    char gender = 'M'; // M(남자) W(여자)
+    byte level = 0; // 0(비전공)
+    String createDate = "2022-12-29";
+
+    System.out.printf("번호: %d\n", no);
+    System.out.printf("이름: %s\n", name);
+    System.out.printf("전화번호: %s\n", tell);
+    System.out.printf("우편번호: %s\n", postNo);
+
+    System.out.printf("성별: %s\n", gender == 'M' ? "남자" : "여자");
+    System.out.printf("주소: %s\n", basicAddress);
+    System.out.printf("상세주소: %s\n", detaileAddress);
+
+    System.out.printf("재직여부: %s\n", working ? "예" : "아니오");
+
+    switch (level) {
+      case 0:
+        System.out.printf("전공: %s\n", "비전공자");
+        break;
+      case 1:
+        System.out.printf("전공: %s\n", "준정공자");
+        break;
+      case 2:
+        System.out.printf("전공: %s\n", "전공자");
+        break;
+      default:
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+
+    System.out.printf("가입일: %s\n", createDate);
+
+  }
 }

@@ -14,7 +14,7 @@ public class Exam0810 {
   //  static int b;  // 컴파일 오류!
 
   public static void main(String[] args/*로컬변수=파라미터*/) {
-    // 그러나 메서스 블록에서는 클래스에 선언된 변수의 이름과 
+    // 그러나 메서스 블록에서는 클래스에 선언된 변수의 이름과
     // 같은 변수를 선언할 수 있다.
     // 왜? 영역이 다르니까!
     int a;
