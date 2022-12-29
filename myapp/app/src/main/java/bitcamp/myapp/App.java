@@ -3,20 +3,35 @@
  */
 package bitcamp.myapp;
 
+import java.util.Scanner;
+
 public class App {
   public static void main(String[] args) {
-    int no = 1;
-    String name = "홍길동";
-    String tell = "010-1110-2222";
-    String postNo = "06656";
 
-    String basicAddress = "서울시 서초구 반포대로 23길";
-    String detaileAddress = "101동 102호";
+    Scanner keyScanner = new Scanner(System.in);
 
-    boolean working = false;
-    char gender = 'M'; // M(남자) W(여자)
-    byte level = 0; // 0(비전공)
-    String createDate = "2022-12-29";
+    System.out.print("번호 : ");
+    int no = Integer.parseInt(keyScanner.nextLine());
+    System.out.print("이름 : ");
+    String name = keyScanner.nextLine();
+    System.out.print("전화번호(010-1234-5678) : ");
+    String tell = keyScanner.nextLine();
+    System.out.print("우편번호 : ");
+    String postNo = keyScanner.nextLine();
+    System.out.print("주소 : ");
+    String basicAddress = keyScanner.nextLine();
+    System.out.print("상세주소 : ");
+    String detaileAddress = keyScanner.nextLine();
+    System.out.print("재직여부 (true / false) : ");
+    boolean working = Boolean.parseBoolean(keyScanner.nextLine());
+    System.out.print("성별 (M / W) : ");
+    char gender = keyScanner.nextLine().charAt(0); // M(남자) W(여자)
+    System.out.print("전공여부 (0: 비전공, 1: 준전공, 2: 전공) : ");
+    byte level = Byte.parseByte(keyScanner.nextLine()); // 0(비전공)
+    System.out.print("가입일(yyyy-mm-dd) : ");
+    String createDate = keyScanner.nextLine();
+
+    System.out.print("\n\n\n");
 
     System.out.printf("번호: %d\n", no);
     System.out.printf("이름: %s\n", name);
@@ -44,6 +59,8 @@ public class App {
 
 
     System.out.printf("가입일: %s\n", createDate);
+
+
 
   }
 }
