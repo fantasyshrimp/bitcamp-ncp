@@ -60,8 +60,6 @@ public class App {
 
     for (int i = 0; i < count; i++) {
 
-      System.out.print("\n\n\n");
-
       System.out.printf("번호: %d\n", nos[i]);
       System.out.printf("이름: %s\n", names[i]);
       System.out.printf("전화번호: %s\n", tells[i]);
@@ -87,6 +85,7 @@ public class App {
       }
 
       System.out.printf("가입일: %s\n", createDates[i]);
+      System.out.println("--------------------------------------------");
     }
   }
 }
