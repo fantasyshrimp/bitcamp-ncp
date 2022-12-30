@@ -29,38 +29,29 @@ public class App {
     System.out.println();
     System.out.println();
     printMembers();
-
   }
 
   static void inputMembers() {
     Scanner keyScanner = new Scanner(System.in);
 
     for (int i = 0; i < ACCOUNT_SIZE; i++) {
-      System.out.print("번호 : ");
-      nos[i] = Integer.parseInt(keyScanner.nextLine());
-      System.out.print("이름 : ");
-      names[i] = keyScanner.nextLine();
-      System.out.print("전화번호(010-1234-5678) : ");
-      tells[i] = keyScanner.nextLine();
-      System.out.print("우편번호 : ");
-      postNos[i] = keyScanner.nextLine();
-      System.out.print("주소 : ");
-      basicAddresses[i] = keyScanner.nextLine();
-      System.out.print("상세주소 : ");
-      detaileAddresses[i] = keyScanner.nextLine();
-      System.out.print("재직여부 (0: 미취업 / 1. 재직중) : ");
-      workings[i] = Integer.parseInt(keyScanner.nextLine()) == 1;
-      System.out.print("성별 (M / W) : ");
-      genders[i] = keyScanner.nextLine().charAt(0); // M(남자) W(여자)
-      System.out.print("전공여부 (0: 비전공, 1: 준전공, 2: 전공) : ");
-      levels[i] = Byte.parseByte(keyScanner.nextLine()); // 0(비전공)
+      nos[i] = promptInt(keyScanner, "번호 : ");
+      names[i] = promptString(keyScanner, "이름 : ");
+      tells[i] = promptString(keyScanner, "전화번호(010-1234-5678) : ");
+      postNos[i] = promptString(keyScanner, "우편번호 : ");
+      basicAddresses[i] = promptString(keyScanner, "주소 : ");
+      detaileAddresses[i] = promptString(keyScanner, "상세주소 : ");
+      workings[i] = promptInt(keyScanner,
+          "재직여부 (0: 미취업 / 1. 재직중) :  : ") == 1;
+      genders[i] = promptString(keyScanner, "성별 (M / W) : ").charAt(0);
+      levels[i] = (byte)promptInt(keyScanner,
+          "전공여부 (0: 비전공, 1: 준전공, 2: 전공) : ");
       Date today = new Date(System.currentTimeMillis());
       createDates[i] = today.toString();
 
       count++;
 
-      System.out.print("계속 입력하시겠습니까? Y / n");
-      String str = keyScanner.nextLine();
+      String str = promptString(keyScanner, "계속 입력하시겠습니까? Y / n : ");
 
       if (!str.equalsIgnoreCase("Y") && str.length() != 0) {
         break;
@@ -100,8 +91,16 @@ public class App {
       System.out.printf("가입일: %s\n", createDates[i]);
       System.out.println("--------------------------------------------");
 
-
     }
+  }
+
+  static String promptString(Scanner scanner, String title) {
+    System.out.print(title);
+    return scanner.nextLine();
+  }
+
+  static int promptInt(Scanner scanner, String title) {
+    return Integer.parseInt(promptString(scanner, title));
   }
 
 }
