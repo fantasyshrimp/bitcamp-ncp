@@ -56,7 +56,10 @@ public class App {
       if (!str.equalsIgnoreCase("Y") && str.length() != 0) {
         break;
       }
+
+      System.out.println();
     }
+    keyScanner.close();
 
     for (int i = 0; i < count; i++) {
 
@@ -76,7 +79,7 @@ public class App {
           System.out.printf("전공: %s\n", "비전공자");
           break;
         case 1:
-          System.out.printf("전공: %s\n", "준정공자");
+          System.out.printf("전공: %s\n", "준전공자");
           break;
         case 2:
           System.out.printf("전공: %s\n", "전공자");
@@ -86,6 +89,8 @@ public class App {
 
       System.out.printf("가입일: %s\n", createDates[i]);
       System.out.println("--------------------------------------------");
+
+
     }
   }
 }
