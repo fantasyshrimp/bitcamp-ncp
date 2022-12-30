@@ -7,23 +7,33 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class App {
+
+  static final int ACCOUNT_SIZE = 50;
+  static int count = 0;
+
+  static int[] nos = new int[ACCOUNT_SIZE];
+  static String[] names = new String[ACCOUNT_SIZE];
+  static String[] tells = new String[ACCOUNT_SIZE];
+  static String[] postNos = new String[ACCOUNT_SIZE];
+  static String[] basicAddresses = new String[ACCOUNT_SIZE];
+  static String[] detaileAddresses = new String[ACCOUNT_SIZE];
+
+  static boolean[] workings = new boolean[ACCOUNT_SIZE];
+  static char[] genders = new char[ACCOUNT_SIZE];
+  static byte[] levels = new byte[ACCOUNT_SIZE];
+  static String[] createDates = new String[ACCOUNT_SIZE];
+
   public static void main(String[] args) {
 
+    inputMembers();
+    System.out.println();
+    System.out.println();
+    printMembers();
+
+  }
+
+  static void inputMembers() {
     Scanner keyScanner = new Scanner(System.in);
-    final int ACCOUNT_SIZE = 50;
-    int count = 0;
-
-    int[] nos = new int[ACCOUNT_SIZE];
-    String[] names = new String[ACCOUNT_SIZE];
-    String[] tells = new String[ACCOUNT_SIZE];
-    String[] postNos = new String[ACCOUNT_SIZE];
-    String[] basicAddresses = new String[ACCOUNT_SIZE];
-    String[] detaileAddresses = new String[ACCOUNT_SIZE];
-
-    boolean[] workings = new boolean[ACCOUNT_SIZE];
-    char[] genders = new char[ACCOUNT_SIZE];
-    byte[] levels = new byte[ACCOUNT_SIZE];
-    String[] createDates = new String[ACCOUNT_SIZE];
 
     for (int i = 0; i < ACCOUNT_SIZE; i++) {
       System.out.print("번호 : ");
@@ -47,7 +57,6 @@ public class App {
       Date today = new Date(System.currentTimeMillis());
       createDates[i] = today.toString();
 
-
       count++;
 
       System.out.print("계속 입력하시겠습니까? Y / n");
@@ -56,11 +65,12 @@ public class App {
       if (!str.equalsIgnoreCase("Y") && str.length() != 0) {
         break;
       }
-
       System.out.println();
     }
     keyScanner.close();
+  }
 
+  static void printMembers() {
     for (int i = 0; i < count; i++) {
 
       System.out.printf("번호: %d\n", nos[i]);
@@ -93,4 +103,5 @@ public class App {
 
     }
   }
+
 }
