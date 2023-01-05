@@ -18,7 +18,7 @@ public class Exam0121 {
 
   public static void main(String[] args) {
 
-    Score s = new Score();
+    Score s = new Score();//200
 
     s.name = "홍길동";
     s.kor = 100;
@@ -51,6 +51,7 @@ public class Exam0121 {
         s.name, s.kor, s.eng, s.math, s.sum, s.aver);
   }
 }
+
 
 
 

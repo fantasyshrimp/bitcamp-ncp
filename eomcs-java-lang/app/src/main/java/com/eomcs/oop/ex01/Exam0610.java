@@ -19,5 +19,6 @@ public class Exam0610 {
 
     // - Y2 클래스는 public으로 공개된 클래스이다.
     com.eomcs.oop.ex01.sub.Y2 obj4;
+
   }
 }
