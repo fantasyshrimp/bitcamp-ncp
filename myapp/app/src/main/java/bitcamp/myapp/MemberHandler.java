@@ -5,14 +5,16 @@ import java.sql.Date;
 public class MemberHandler {
 
   static final int SIZE = 100;
-  static int count = 0;
+  String title = "";
+  int count;
+  Member[] members = new Member[SIZE];
 
-  // 레퍼런스 배열 준비
-  static Member[] members = new Member[SIZE];
 
-  static String title = "회원관리";
+  MemberHandler(String title) {
+    this.title = title;
+  }
 
-  static void inputMember() {
+  void inputMember() {
     Member m = new Member();
     m.no = Prompt.inputInt("번호? ");
     m.name = Prompt.inputString("이름? ");
@@ -25,45 +27,37 @@ public class MemberHandler {
     m.level = (byte) Prompt.inputInt("0. 비전공자\n1. 준전공자\n2. 전공자\n전공? ");
     m.createdDate = new Date(System.currentTimeMillis()).toString();
 
-    // 지금 금방 만든 객체에 사용자가 입력한 값을 저장한 후
-    // 그 객체의 주소를 잃어버리지 않게 레퍼런스 배열에 보관해 둔다.
-    members[count++] = m;
+    this.members[count++] = m;
   }
 
-
-  static void printMembers() {
-
-    if (count == 0) {
-      System.out.println("등록된 회원이 없습니다.");
-      return;
-    }
-
+  void printMembers() {
     System.out.println("번호\t이름\t전화\t재직\t전공");
-    for (int i = 0; i < count; i++) {
-      Member m = members[i];
 
+    for (int i = 0; i < this.count; i++) {
+      Member m = this.members[i];
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.no, m.name, m.tel,
           m.working ? "예" : "아니오",
-              getLevelText(m.level)
-          );
+              getLevelText(m.level));
     }
   }
 
-  static void printMember() {
+  void printMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member m = findByNo(Prompt.inputInt("회원번호? "));
+    Member m = this.findByNo(memberNo);
 
     if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
+
     System.out.printf("    이름: %s\n", m.name);
     System.out.printf("    전화: %s\n", m.tel);
     System.out.printf("우편번호: %s\n", m.postNo);
     System.out.printf("기본주소: %s\n", m.basicAddress);
     System.out.printf("상세주소: %s\n", m.detailAddress);
-    System.out.printf("제직여부: %s\n", m.working ? "예" : "아니오");
+    System.out.printf("재직여부: %s\n", m.working ? "예" : "아니오");
     System.out.printf("    성별: %s\n", m.gender == 'M' ? "남자" : "여자");
     System.out.printf("    전공: %s\n", getLevelText(m.level));
     System.out.printf("  등록일: %s\n", m.createdDate);
@@ -77,107 +71,108 @@ public class MemberHandler {
     }
   }
 
-  static void modifyMember() {
+  void modifyMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
 
-    Member old = findByNo(Prompt.inputInt("회원번호? "));
+    Member old = this.findByNo(memberNo);
 
     if (old == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
 
+    // 변경할 데이터를 저장할 인스턴스 준비
     Member m = new Member();
-    m.name = Prompt.inputString(String.format("이름( %s )? >> ", old.name));
-    m.tel = Prompt.inputString(String.format("전화( %s )? >> ", old.tel));
-    m.postNo = Prompt.inputString(String.format("우편번호( %s )? >> ", old.postNo));
-    m.basicAddress = Prompt.inputString(String.format("기본주소( %s )? >> ", old.basicAddress));
-    m.detailAddress = Prompt.inputString(String.format("상세주소( %s )? >> ", old.detailAddress));
-    m.working = Prompt.inputInt(String.format("0. 미취업 1. 재직중\n"
-        + "재직여부( %s )? >> ", old.working ? "재직중" : "미취업")) == 1;
-    m.gender = Prompt.inputInt(String.format("0. 남자 1. 여자\n"
-        + "성별( %s )? >> ", old.gender == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W';
-    m.level = (byte)Prompt.inputInt(String.format("0. 비전공자 1. 준전공자 2. 전공자\n"
-        + "전공( %s )? >> ", getLevelText(old.level)));
+    m.no = old.no;
+    m.createdDate = old.createdDate;
+    m.name = Prompt.inputString(String.format("이름(%s)? ", old.name));
+    m.tel = Prompt.inputString(String.format("전화(%s)? ", old.tel));
+    m.postNo = Prompt.inputString(String.format("우편번호(%s)? ", old.postNo));
+    m.basicAddress = Prompt.inputString(String.format("기본주소(%s)? ", old.basicAddress));
+    m.detailAddress = Prompt.inputString(String.format("상세주소(%s)? ", old.detailAddress));
+    m.working = Prompt.inputInt(String.format(
+        "0. 미취업\n1. 재직중\n재직여부(%s)? ",
+        old.working ? "재직중" : "미취업")) == 1;
+    m.gender = Prompt.inputInt(String.format(
+        "0. 남자\n1. 여자\n성별(%s)? ",
+        old.gender == 'M' ? "남자" : "여자")) == 0 ? 'M' : 'W';
+    m.level = (byte) Prompt.inputInt(String.format(
+        "0. 비전공자\n1. 준전공자\n2. 전공자\n전공(%s)? ",
+        getLevelText(old.level)));
 
-
-    String doSave = Prompt.inputString("정말 변경하시겠습니까? (y/N) ");
-    if (doSave.equalsIgnoreCase("Y") ) {
-      m.no = members[indexOf(old)].no;
-      m.createdDate = members[indexOf(old)].createdDate;
-      members[indexOf(old)] = m;
-      System.out.println("수정되었습니다.");
+    String str = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+    if (str.equalsIgnoreCase("Y")) {
+      this.members[this.indexOf(old)] = m;
+      System.out.println("변경했습니다.");
     } else {
-      System.out.println("수정되지 않았습니다.");
+      System.out.println("변경 취소했습니다.");
     }
+
   }
 
-  static void deleteMember() {
+  void deleteMember() {
+    int memberNo = Prompt.inputInt("회원번호? ");
 
-    int memberIndex = indexOf(findByNo(Prompt.inputInt("회원번호? ")));
+    Member m = this.findByNo(memberNo);
 
-    if (memberIndex == -1) {
+    if (m == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
 
-    String doSave = Prompt.inputString("정말 삭제하시겠습니까? (y/N) ");
-    if (!doSave.equalsIgnoreCase("Y") ) {
-      System.out.println("삭제되지 않았습니다.");
+    String str = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    if (!str.equalsIgnoreCase("Y")) {
+      System.out.println("삭제 취소했습니다.");
       return;
     }
 
-    System.out.println("삭제되었습니다.");
-    members[memberIndex] = members[count - 1];
-    members[--count] = null; //이부분 반복문돌면서 앞으로 당기는걸로 변경해야함
+    for (int i = this.indexOf(m) + 1; i < this.count; i++) {
+      this.members[i - 1] = this.members[i];
+    }
+    this.members[--this.count] = null; // 레퍼런스 카운트를 줄인다.
+
+    System.out.println("삭제했습니다.");
 
   }
-  static void searchMember() {
 
-    if (count == 0) {
-      System.out.println("등록된 회원이 없습니다.");
-      return;
-    }
-
-    String name = Prompt.inputString("이름? ");
-
-
-    System.out.println("번호\t이름\t전화\t재직\t전공");
-    for (int i = 0; i < count; i++) {
-      Member m = members[i];
-      if (m.name.equalsIgnoreCase(name)) {
-        System.out.printf("%d\t%s\t%s\t%s\t%s\n",
-            m.no, m.name, m.tel,
-            m.working ? "예" : "아니오",
-                getLevelText(m.level)
-            );
-      }
-    }
-  }
-  static Member findByNo(int no) {
-    for (int i = 0; i < count; i++) {
-      if (members[i].no == no) {
-        return members[i];
+  Member findByNo(int no) {
+    for (int i = 0; i < this.count; i++) {
+      if (this.members[i].no == no) {
+        return this.members[i];
       }
     }
     return null;
   }
-  static int indexOf(Member m) {
-    if (m == null) {
-      return -1;
-    }
 
-    for (int i = 0; i < count; i++) {
-      if (members[i].no == m.no) {
+  int indexOf(Member m) {
+    for (int i = 0; i < this.count; i++) {
+      if (this.members[i].no == m.no) {
         return i;
       }
     }
     return -1;
   }
 
-  static void service() {
-    int menuNo;
-    while(true) {
-      System.out.println(String.format("[%s]", title));
+  void searchMember() {
+
+    String name = Prompt.inputString("이름? ");
+
+    System.out.println("번호\t이름\t전화\t재직\t전공");
+
+    for (int i = 0; i < this.count; i++) {
+      Member m = this.members[i];
+
+      if (m.name.equalsIgnoreCase(name)) {
+        System.out.printf("%d\t%s\t%s\t%s\t%s\n",
+            m.no, m.name, m.tel,
+            m.working ? "예" : "아니오",
+                getLevelText(m.level));
+      }
+    }
+  }
+  void service() {
+    while (true) {
+      System.out.println(String.format("[%s]", this.title));
       System.out.println("1. 등록");
       System.out.println("2. 목록");
       System.out.println("3. 조회");
@@ -185,19 +180,18 @@ public class MemberHandler {
       System.out.println("5. 삭제");
       System.out.println("6. 검색");
       System.out.println("0. 이전");
-      menuNo = Prompt.inputInt(String.format("%s> ", title));
+      int menuNo = Prompt.inputInt(String.format("%s> ", this.title));
 
       switch (menuNo) {
         case 0: return;
-        case 1: inputMember(); break;
-        case 2: printMembers(); break;
-        case 3: printMember(); break;
-        case 4: modifyMember(); break;
-        case 5: deleteMember(); break;
-        case 6: searchMember(); break;
+        case 1: this.inputMember(); break;
+        case 2: this.printMembers(); break;
+        case 3: this.printMember(); break;
+        case 4: this.modifyMember(); break;
+        case 5: this.deleteMember(); break;
+        case 6: this.searchMember(); break;
         default:
-          System.out.println("잘못된 번호가 입력되었습니다.");
-
+          System.out.println("잘못된 메뉴 번호 입니다.");
       }
     }
   }
