@@ -4,64 +4,25 @@ public class App {
 
   public static void main(String[] args) {
 
-    goMainMenu();
+    goMenu();
+    System.out.println("잘가요 내사랑 이제 보내줄께요.");
     Prompt.close();
   } // main()
 
-  private static void goMainMenu() {
-    while (true) {
-      System.out.println("1. 회원관리");
+  private static void goMenu() {
+    while(true) {
+      System.out.println("1. 회원 관리");
+      System.out.println("9. 나가기");
       int menuNo = Prompt.inputInt("메뉴> ");
 
       if (menuNo == 1) {
-
-        goMemberMenu();
-
+        MemberHandler.service();
       } else if (menuNo == 9) {
         break;
       } else {
-        System.out.println("다시");
-      }
-    }
-    System.out.println("ㅂㅇ");
-  }
-
-  private static void goMemberMenu() {
-    while (true) {
-      System.out.println("[회원 관리]");
-      System.out.println("1. 등록");
-      System.out.println("2. 목록");
-      System.out.println("3. 조회");
-      System.out.println("4. 변경");
-      System.out.println("5. 삭제");
-      System.out.println("0. 이전");
-      int menuNo = Prompt.inputInt("회원관리> ");
-
-      if (menuNo == 0) {
-        break;
-      } else if (menuNo < 0 || menuNo > 5) {
-        System.out.println("잘못된 번호입니다.");
-      } else {
-
-        if (menuNo == 1) {
-          MemberHandler.inputMember();
-        } else if (menuNo == 2) {
-          MemberHandler.printMembers();
-        } else {
-          System.out.println("작업 실행");
-        }
-
+        System.out.println("잘못된 번호가 입력되었습니다.");
       }
     }
   }
 
 } // class App
-
-
-
-
-
-
-
-
-
