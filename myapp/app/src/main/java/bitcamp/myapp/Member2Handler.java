@@ -2,15 +2,15 @@ package bitcamp.myapp;
 
 import java.sql.Date;
 
-public class MemberHandler {
+public class Member2Handler {
 
   static final int SIZE = 100;
   static int count = 0;
 
+  static String title = "회원관리";
+
   // 레퍼런스 배열 준비
   static Member[] members = new Member[SIZE];
-
-  static String title = "회원관리";
 
   static void inputMember() {
     Member m = new Member();

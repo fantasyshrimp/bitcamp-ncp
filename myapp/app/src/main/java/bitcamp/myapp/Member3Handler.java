@@ -2,15 +2,15 @@ package bitcamp.myapp;
 
 import java.sql.Date;
 
-public class MemberHandler {
+public class Member3Handler {
 
   static final int SIZE = 100;
   static int count = 0;
 
+  static String title = "회원관리";
+
   // 레퍼런스 배열 준비
   static Member[] members = new Member[SIZE];
-
-  static String title = "회원관리";
 
   static void inputMember() {
     Member m = new Member();
@@ -131,6 +131,7 @@ public class MemberHandler {
     members[--count] = null; //이부분 반복문돌면서 앞으로 당기는걸로 변경해야함
 
   }
+
   static void searchMember() {
 
     if (count == 0) {
@@ -153,6 +154,7 @@ public class MemberHandler {
       }
     }
   }
+
   static Member findByNo(int no) {
     for (int i = 0; i < count; i++) {
       if (members[i].no == no) {
