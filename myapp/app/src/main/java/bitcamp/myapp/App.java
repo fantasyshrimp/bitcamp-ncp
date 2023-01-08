@@ -23,7 +23,7 @@ public class App {
       System.out.println("1. 일반학생관리");
       System.out.println("2. 국비지원학생관리");
       System.out.println("3. 위탁교육생관리");
-      System.out.println("4. 게시글작성");
+      System.out.println("4. 게시글관리");
       System.out.println("9. 종료");
       int menuNo = Prompt.inputInt("메뉴> ");
 
