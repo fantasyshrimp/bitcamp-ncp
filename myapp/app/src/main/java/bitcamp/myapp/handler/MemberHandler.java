@@ -1,28 +1,23 @@
-package bitcamp.myapp;
+package bitcamp.myapp.handler;
 
 import java.sql.Date;
+import bitcamp.myapp.dao.MemberDao;
+import bitcamp.myapp.vo.Member;
+import bitcamp.util.Prompt;
 
 public class MemberHandler {
 
   // 모든 인스턴스가 공유하는 데이터를 스태틱 필드로 만든다.
   // 특히 데이터를 조회하는 용으로 사용하는 final 변수는 스태틱 필드로 만들어야 한다.
-  static final int SIZE = 100;
-
   String title;
   MemberDao memberDao = new MemberDao();
 
-
-
-
-  int count;
-  Member[] members = new Member[SIZE];
-
   // 인스턴스를 만들 때 프롬프트 제목을 반드시 입력하도록 강제한다.
-  MemberHandler(String title) {
+  public MemberHandler(String title) {
     this.title = title;
   }
 
-  void inputMember() {
+  private void inputMember() {
     Member m = new Member();
     m.setNo(Prompt.inputInt("번호? "));
     m.setName(Prompt.inputString("이름? "));
@@ -38,7 +33,7 @@ public class MemberHandler {
     this.memberDao.insert(m);
   }
 
-  void printMembers() {
+  private void printMembers() {
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
     for (Member m : this.memberDao.findAll()) {
@@ -50,7 +45,7 @@ public class MemberHandler {
 
   }
 
-  void printMember() {
+  private void printMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
     Member m = this.memberDao.findByNo(memberNo);
@@ -73,7 +68,7 @@ public class MemberHandler {
 
   // 인스턴스 멤버(필드나 메서드)를 사용하지 않기 때문에
   // 그냥 스태틱 메서드로 두어라!
-  static String getLevelText(int level) {
+  private static String getLevelText(int level) {
     switch (level) {
       case 0: return "비전공자";
       case 1: return "준전공자";
@@ -81,7 +76,7 @@ public class MemberHandler {
     }
   }
 
-  void modifyMember() {
+  private void modifyMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
     Member old = this.memberDao.findByNo(memberNo);
@@ -120,7 +115,7 @@ public class MemberHandler {
 
   }
 
-  void deleteMember() {
+  private void deleteMember() {
     int memberNo = Prompt.inputInt("회원번호? ");
 
     Member m = this.memberDao.findByNo(memberNo);
@@ -136,37 +131,18 @@ public class MemberHandler {
       return;
     }
 
-    this.memberDao.deleteMember();
+    this.memberDao.delete(m);
 
     System.out.println("삭제했습니다.");
-
   }
 
-  Member findByNo(int no) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.members[i].getNo() == no) {
-        return this.members[i];
-      }
-    }
-    return null;
-  }
 
-  int indexOf(Member m) {
-    for (int i = 0; i < this.count; i++) {
-      if (this.members[i].getNo() == m.getNo()) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  void searchMember() {
+  private void searchMember() {
     String name = Prompt.inputString("이름? ");
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
-
-    for (int i = 0; i < this.count; i++) {
-      Member m = this.members[i];
+    Member[] members = this.memberDao.findAll();
+    for (Member m : members) {
       if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
             m.getNo(), m.getName(), m.getTel(),
@@ -176,7 +152,7 @@ public class MemberHandler {
     }
   }
 
-  void service() {
+  public void service() {
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");

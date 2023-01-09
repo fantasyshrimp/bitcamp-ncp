@@ -1,6 +1,7 @@
-package bitcamp.myapp;
+package bitcamp.myapp.dao;
 
 import java.util.Arrays;
+import bitcamp.myapp.vo.Member;
 
 public class MemberDao {
   static final int SIZE = 100;

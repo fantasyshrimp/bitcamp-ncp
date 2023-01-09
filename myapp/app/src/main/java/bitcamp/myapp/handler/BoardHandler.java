@@ -1,17 +1,20 @@
-package bitcamp.myapp;
+package bitcamp.myapp.handler;
 
 import java.sql.Date;
+import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.vo.Board;
+import bitcamp.util.Prompt;
 
 public class BoardHandler {
 
   private BoardDao boardDao = new BoardDao();
   private String title;
 
-  BoardHandler(String title) {
+  public BoardHandler(String title) {
     this.title = title;
   }
 
-  void inputBoard() {
+  private void inputBoard() {
     Board b = new Board();
     b.setNo(Prompt.inputInt("번호? "));
     b.setTitle(Prompt.inputString("제목? "));
@@ -22,7 +25,7 @@ public class BoardHandler {
     this.boardDao.insert(b);
   }
 
-  void printBoards() {
+  private void printBoards() {
     System.out.println("번호\t제목\t작성일\t조회수");
 
     Board[] boards = this.boardDao.findAll();
@@ -32,7 +35,7 @@ public class BoardHandler {
     }
   }
 
-  void printBoard() {
+  private void printBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board b = this.boardDao.findByNo(boardNo);
@@ -49,7 +52,7 @@ public class BoardHandler {
     b.setViewCount(b.getViewCount() + 1);
   }
 
-  void modifyBoard() {
+  private void modifyBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board old = this.boardDao.findByNo(boardNo);
@@ -82,7 +85,7 @@ public class BoardHandler {
 
   }
 
-  void deleteBoard() {
+  private void deleteBoard() {
     int boardNo = Prompt.inputInt("게시글 번호? ");
 
     Board b = this.boardDao.findByNo(boardNo);
@@ -111,7 +114,7 @@ public class BoardHandler {
 
 
 
-  void searchBoard() {
+  private void searchBoard() {
     String keyword = Prompt.inputString("검색어? ");
     System.out.println("번호\t제목\t작성일\t조회수");
     Board[] boards = this.boardDao.findAll();
@@ -125,7 +128,7 @@ public class BoardHandler {
     }
   }
 
-  void service() {
+  public void service() {
     while (true) {
       System.out.printf("[%s]\n", this.title);
       System.out.println("1. 등록");
