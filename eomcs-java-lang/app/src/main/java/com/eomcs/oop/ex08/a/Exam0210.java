@@ -20,6 +20,7 @@ public class Exam0210 {
     System.out.printf("%s, %d, %d, %d, %d, %.1f\n",
         s1.name, s1.kor, s1.eng, s1.math, s1.sum, s1.aver);
 
+
     // 해결책!
     // - sum이나 aver 필드처럼
     //   기존 필드의 값을 연산해서 나온 결과를 저장하는 경우,

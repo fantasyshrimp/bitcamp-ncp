@@ -25,6 +25,7 @@ class Score4 {
   //
   // 용어 주의!
   // - name, kor, eng, math, sum, aver 는 "필드(field)" 라 부른다.
+
   // - getXxx()/setXxx()는 "프로퍼티(property)"라 부른다.
   // - 필드를 프로퍼티라 부르는 것이 아니다!
   //   게터/세터를 프로퍼티라 부르는 것이다.

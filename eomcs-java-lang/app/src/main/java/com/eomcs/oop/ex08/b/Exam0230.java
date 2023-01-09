@@ -1,3 +1,4 @@
+
 // 캡슐화(encapsulation) 응용 - 생성자 접근이 금지된 또 다른 예
 package com.eomcs.oop.ex08.b;
 
