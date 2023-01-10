@@ -14,6 +14,6 @@ public class App {
     SpringApplication.run(App.class, args);
 
 
-    HelloController.hello("World");
+    //HelloController.hello("World");
   }
 }
