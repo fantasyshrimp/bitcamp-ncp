@@ -37,15 +37,27 @@
       </tr>
       <tr>
         <th>재직여부</th>
-        <td><input type="text" name="working" id="f-working"></td>
+        <td>
+          <input type="radio" name="working" id="f-working0" value=false >미취업
+          <input type="radio" name="working" id="f-working1" value=true >재직중
+        </td>
       </tr>
       <tr>
         <th>성별</th>
-        <td><input type="text" name="gender" id="f-gender"></td>
+        <td>
+          <input type="radio" name="gender" id="f-gender0" value='M' >남자
+          <input type="radio" name="gender" id="f-gender1" value='W' >여자
+        </td>
       </tr>
       <tr>
         <th>전공여부</th>
-        <td><input type="text" name="level" id="f-level"></td>
+        <td>
+        <select name="level" id="f-level">
+          <option value="0">비전공자</option>
+          <option value="1">준전공자</option>
+          <option value="2">전공자</option>
+        </select>
+      </td>
       </tr>
       <tr>
         <th>등록일자</th>
@@ -95,8 +107,18 @@
     document.querySelector("#f-postNo").value = obj.data.postNo;
     document.querySelector("#f-basicAddress").value = obj.data.basicAddress;
     document.querySelector("#f-detailAddress").value = obj.data.detailAddress;
-    document.querySelector("#f-working").value = obj.data.working;
-    document.querySelector("#f-gender").value = obj.data.gender;
+    var workingRadios = document.getElementsByName('working');
+    if (obj.data.working) {
+      workingRadios[1].checked = true;
+    } else {
+      workingRadios[0].checked = true;
+    }
+    var genderRadios = document.getElementsByName('gender');
+    if (obj.data.gender == 'M') {
+      genderRadios[0].checked = true;
+    } else {
+      genderRadios[1].checked = true;
+    }
     document.querySelector("#f-level").value = obj.data.level;
     document.querySelector("#f-createdDate").value = obj.data.createdDate;
 
@@ -111,8 +133,19 @@
     var postNo = encodeURIComponent(document.querySelector('#f-postNo').value);
     var basicAddress = encodeURIComponent(document.querySelector('#f-basicAddress').value);
     var detailAddress = encodeURIComponent(document.querySelector('#f-detailAddress').value);
-    var working = encodeURIComponent(document.querySelector('#f-working').value);
-    var gender = encodeURIComponent(document.querySelector('#f-gender').value);
+
+    var workingRadios = document.getElementsByName('working');
+    for (var radio of workingRadios) {
+      if(radio.checked === true) {
+        var working = radio.value;
+      }
+    }
+    var genderRadios = document.getElementsByName('gender');
+    for (var radio of genderRadios) {
+      if(radio.checked === true) {
+        var gender = radio.value;
+      }
+    }
     var level = encodeURIComponent(document.querySelector('#f-level').value);
 
     fetch(`http://localhost:8080/members/${no}`, {
@@ -127,7 +160,6 @@
     .then((response) => response.json())
     .then((obj) => {
       location.href = "list.html";
-      console.log("에러인가");
       console.log(obj);
     })
     .catch((err) => {
@@ -138,19 +170,13 @@
 
   document.querySelector('#delete-btn').onclick = (e) => {
 
-    var password = prompt('암호를 입력하세요!');
-
-    fetch(`http://localhost:8080/boards/${no}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `password=${password}`
+    fetch(`http://localhost:8080/members/${no}`, {
+      method: 'DELETE'
     })
     .then((response) => response.json())
     .then((obj) =>  {
       if (obj.status == "failure") {
-        alert("게시글 삭제 오류 \n" + obj.data);
+        alert("회원 정보 삭제 오류 \n" + obj.data);
         return;
       }
       location.href = "list.html";})

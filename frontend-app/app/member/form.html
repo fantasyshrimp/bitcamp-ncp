@@ -33,15 +33,27 @@
       </tr>
       <tr>
         <th>재직여부</th>
-        <td><input type="text" name="working" id="f-working"></td>
+        <td>
+          <input type="radio" name="working" id="f-working0" value=false checked>미취업
+          <input type="radio" name="working" id="f-working1" value=true >재직중
+        </td>
       </tr>
       <tr>
         <th>성별</th>
-        <td><input type="text" name="gender" id="f-gender"></td>
+        <td>
+          <input type="radio" name="gender" id="f-gender0" value='M' checked>남자
+          <input type="radio" name="gender" id="f-gender1" value='W' >여자
+        </td>
       </tr>
       <tr>
         <th>전공여부</th>
-        <td><input type="text" name="level" id="f-level"></td>
+        <td>
+          <select name="level" id="f-level">
+            <option value="0">비전공자</option>
+            <option value="1">준전공자</option>
+            <option value="2">전공자</option>
+          </select>
+        </td>
       </tr>
       
     </tbody>
@@ -52,16 +64,28 @@
 </body>
 
 <script>
+
   document.querySelector('#add-btn').onclick = (e) => {
     var name = encodeURIComponent(document.querySelector('#f-name').value);
     var tel = encodeURIComponent(document.querySelector('#f-tel').value);
     var postNo = encodeURIComponent(document.querySelector('#f-postNo').value);
     var basicAddress = encodeURIComponent(document.querySelector('#f-basicAddress').value);
     var detailAddress = encodeURIComponent(document.querySelector('#f-detailAddress').value);
-    var working = encodeURIComponent(document.querySelector('#f-working').value);
-    var gender = encodeURIComponent(document.querySelector('#f-gender').value);
-    var level = encodeURIComponent(document.querySelector('#f-level').value);
-    
+    var workingRadios = document.getElementsByName('working');
+    for (var radio of workingRadios) {
+      if(radio.checked === true) {
+        var working = radio.value;
+      }
+    }    
+    var genderRadios = document.getElementsByName('gender');
+    for (var radio of genderRadios) {
+      if(radio.checked === true) {
+        var gender = radio.value;
+      }
+    }
+    var level = document.querySelector('#f-level').value;
+
+
     fetch('http://localhost:8080/members', {
       method: 'POST',
       headers: {
@@ -77,7 +101,6 @@
     })
     .catch((err) => {
       alert("서버 요청 오류");
-      console.log(err);
     });
   }
 

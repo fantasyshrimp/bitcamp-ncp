@@ -4,11 +4,11 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import bitcamp.bootapp.dao.MemberDao;
 import bitcamp.bootapp.vo.Member;
@@ -36,27 +36,9 @@ public class MemberController {
   }
 
   @PostMapping("/members")
-  public Object addMember(
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) String tel,
-      @RequestParam(required = false) String postNo,
-      @RequestParam(required = false) String basicAddress,
-      @RequestParam(required = false) String detailAddress,
-      @RequestParam(required = false) int working,
-      @RequestParam(required = false) int gender,
-      @RequestParam(required = false) int level) {
+  public Object addMember(Member m) {
 
-    Member m = new Member();
-    m.setName(name);
-    m.setTel(tel);
-    m.setPostNo(postNo);
-    m.setBasicAddress(basicAddress);
-    m.setDetailAddress(detailAddress);
-    m.setWorking(working == 1);
-    m.setGender(gender == 0 ? 'M' : 'W');
-    m.setLevel((byte)level);
     m.setCreatedDate(new Date(System.currentTimeMillis()).toString());
-
     this.memberDao.insert(m);
 
     Map<String, Object> contentMap = new HashMap<>();
@@ -80,42 +62,39 @@ public class MemberController {
     return contentMap;
   }
 
-  @PutMapping("/members/{memberNo}")
-  public Object updateMember(
-      @PathVariable int memberNo,
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) String tel,
-      @RequestParam(required = false) String postNo,
-      @RequestParam(required = false) String basicAddress,
-      @RequestParam(required = false) String detailAddress,
-      @RequestParam(required = false) int working,
-      @RequestParam(required = false) int gender,
-      @RequestParam(required = false) int level) {
+  @PutMapping("/members/{no}")
+  public Object updateMember(Member m) {
 
     Map<String, Object> contentMap = new HashMap<>();
-    Member old = this.memberDao.findByNo(memberNo);
+    Member old = this.memberDao.findByNo(m.getNo());
     if (old == null) {
       contentMap.put("status", "failure");
       contentMap.put("data", "등록된 회원을 찾을 수 없습니다.");
       return contentMap;
     }
 
-    Member m = new Member();
-    m.setNo(memberNo);
-    m.setName(name);
-    m.setTel(tel);
-    m.setPostNo(postNo);
-    m.setBasicAddress(basicAddress);
-    m.setDetailAddress(detailAddress);
-    m.setWorking(working == 1);
-    m.setGender(gender == 0 ? 'M' : 'W');
-    m.setLevel((byte)level);
     m.setCreatedDate(old.getCreatedDate());
-
     this.memberDao.update(m);
 
     contentMap.put("status", "success");
 
+    return contentMap;
+  }
+
+  @DeleteMapping("/members/{memberNo}")
+  public Object deleteBoard(
+      @PathVariable int memberNo) {
+
+    Map<String, Object> contentMap = new HashMap<>();
+    Member b = this.memberDao.findByNo(memberNo);
+    if (b == null) {
+      contentMap.put("status", "failure");
+      contentMap.put("data", "등록된 회원을 찾을 수 없습니다.");
+    } else {
+
+      this.memberDao.delete(b);
+      contentMap.put("status", "success");
+    }
     return contentMap;
   }
 }
