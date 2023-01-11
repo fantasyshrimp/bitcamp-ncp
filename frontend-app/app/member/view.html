@@ -61,7 +61,7 @@
       </tr>
       <tr>
         <th>등록일자</th>
-        <td><input type="text" name="createdDate" id="f-createdDate"></td>
+        <td><span name="createdDate" id="f-createdDate"></span></td>
       </tr>
 
       </tr>
@@ -120,7 +120,7 @@
       genderRadios[1].checked = true;
     }
     document.querySelector("#f-level").value = obj.data.level;
-    document.querySelector("#f-createdDate").value = obj.data.createdDate;
+    document.querySelector("#f-createdDate").innerHTML = obj.data.createdDate;
 
     })
   .catch((err) => {

@@ -7,6 +7,7 @@ import bitcamp.util.Prompt;
 public class App {
 
   public static void main(String[] args) {
+
     goMainMenu();
     System.out.println("안녕히 가세요!");
 
